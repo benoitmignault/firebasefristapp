@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Initialize Facebook Login button
+        // CallbackManager permet de faire le pont entre facebook et notre application
         mCallbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
@@ -46,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("facebookONResponse", loginResult.toString());
-                //handleFacebookAccessToken(loginResult.getAccessToken());
-                Toast.makeText(MainActivity.this, "Connexion en cours...", Toast.LENGTH_SHORT).show();
+                handleFacebookAccessToken(loginResult.getAccessToken());
+                // Toast.makeText(MainActivity.this, "Connexion en cours...", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -73,25 +74,23 @@ public class MainActivity extends AppCompatActivity {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    //public void handleFacebookAccessToken
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            //updateUI(currentUser);
+            updateUI();
         }
     }
-/*
-    public void updateUI(FirebaseUser user) {
-        Toast.makeText(MainActivity.this,"Bienvenue" + user.getDisplayName() + "! Vous êtes connecté avec succès à QuizWin!", Toast.LENGTH_SHORT).show();
-        Intent newIntent = new Intent(MainActivity.this, LoggedInActivity.class);
-        newIntent.putExtra("username", user.getDisplayName());
-        startActivity(newIntent);
+
+    public void updateUI() {
+        Toast.makeText(MainActivity.this, "Vous etes connecté !!!", Toast.LENGTH_LONG).show();
+        Intent loginFacebookApi = new Intent(MainActivity.this, LoginFacebookApi.class);   // Changement de page
+        startActivity(loginFacebookApi);
         finish();
     }
-*/
+
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("handleFacebookToken", token.toString());
 
@@ -104,13 +103,13 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("signInWithCredential", "success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
+                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("signInWithCredential", task.getException().toString());
+                            Log.w("signInWithCredential", task.getException().toString());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+                            updateUI();
                         }
 
                         // ...
