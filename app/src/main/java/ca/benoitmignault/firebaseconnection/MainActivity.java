@@ -1,32 +1,37 @@
 package ca.benoitmignault.firebaseconnection;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
 
-    CallbackManager mCallbackManager;
-    LoginButton loginButton;
+    private CallbackManager mCallbackManager;
+    private Button btnFBLogin;
+    private Button btnEmailLogin;
     private FirebaseAuth mAuth;
 
     @Override
@@ -34,36 +39,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // ...
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize Facebook Login button
+        btnFBLogin = findViewById(R.id.btnFacebookLogin);
+        btnEmailLogin = findViewById(R.id.btnEmailLogin);
+
         // CallbackManager permet de faire le pont entre facebook et notre application
         mCallbackManager = CallbackManager.Factory.create();
-        loginButton = findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d("facebookONResponse", loginResult.toString());
-                handleFacebookAccessToken(loginResult.getAccessToken());
-                // Toast.makeText(MainActivity.this, "Connexion en cours...", Toast.LENGTH_LONG).show();
-            }
 
+        btnFBLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancel() {
-                Log.d("facebook", "onCancel");
-                // ...
-            }
+            public void onClick(View v) {
+                btnFBLogin.setEnabled(false);
+                LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("email", "public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d("facebookSuccess", loginResult.toString());
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.d("facebookONError", error.toString());
-                // ...
+                    @Override
+                    public void onCancel() {
+                        Log.d("facebook", "onCancel");
+                        Toast.makeText(MainActivity.this, "Une erreur s'est produite, veuillez réessayer plus tard...", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d("facebookONError", error.toString());
+                        Toast.makeText(MainActivity.this, "Une erreur s'est produite, veuillez réessayer plus tard...", Toast.LENGTH_LONG).show();
+                        // ...
+                    }
+                });
             }
         });
-
 
     }
 
@@ -80,14 +91,15 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            updateUI();
+            updateUI(currentUser);
         }
     }
 
-    public void updateUI() {
-        Toast.makeText(MainActivity.this, "Vous etes connecté !!!", Toast.LENGTH_LONG).show();
-        Intent loginFacebookApi = new Intent(MainActivity.this, LoginFacebookApi.class);   // Changement de page
-        startActivity(loginFacebookApi);
+    public void updateUI(FirebaseUser user) {
+        Toast.makeText(MainActivity.this,"Bienvenue " + user.getDisplayName() + " ! Vous êtes connecté avec succès à QuizWin!", Toast.LENGTH_LONG).show();
+        Intent newIntent = new Intent(MainActivity.this, LoginFacebookApi.class);
+        newIntent.putExtra("username", user.getDisplayName());
+        startActivity(newIntent);
         finish();
     }
 
@@ -103,13 +115,14 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("signInWithCredential", "success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI();
+                            btnFBLogin.setEnabled(true);
+                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("signInWithCredential", task.getException().toString());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI();
+                            btnFBLogin.setEnabled(true);
                         }
 
                         // ...

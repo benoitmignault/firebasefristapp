@@ -2,4 +2,8 @@
     <string name="app_name">FirebaseConnection</string>
     <string name="facebook_app_id">2124110564565940</string>
     <string name="facebook_login_protocol_scheme">fb2124110564565940</string>
+    <string name="btnFacebookTxt">SE CONNECTER AVEC FACEBOOK</string>
+    <string name="btnEmailTxt">SE CONNECTER AVEC EMAIL</string>
+    <string name="MsgAvertissement">En se connectant, vous signifiez accepter les termes et conditions</string>
+    <string name="btnLogout">SE DÉCONNECTER</string>
 </resources>
