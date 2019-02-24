@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnFBLogin;
     private Button btnEmailLogin;
     private FirebaseAuth mAuth;
+    private String TAG = "INFORMATION_LOG_MESSAGE";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +59,19 @@ public class MainActivity extends AppCompatActivity {
                 LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.d("facebookSuccess", loginResult.toString());
+                        Log.d(TAG,"facebookSuccess -> " + loginResult.toString());
                         handleFacebookAccessToken(loginResult.getAccessToken());
                     }
 
                     @Override
                     public void onCancel() {
-                        Log.d("facebook", "onCancel");
+                        Log.d(TAG,"facebook -> " + "onCancel");
                         Toast.makeText(MainActivity.this, "Une erreur s'est produite, veuillez réessayer plus tard...", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onError(FacebookException error) {
-                        Log.d("facebookONError", error.toString());
+                        Log.d(TAG,"facebookONError -> " +error.toString());
                         Toast.makeText(MainActivity.this, "Une erreur s'est produite, veuillez réessayer plus tard...", Toast.LENGTH_LONG).show();
                         // ...
                     }
@@ -99,12 +102,13 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this,"Bienvenue " + user.getDisplayName() + " ! Vous êtes connecté avec succès à QuizWin!", Toast.LENGTH_LONG).show();
         Intent newIntent = new Intent(MainActivity.this, LoginFacebookApi.class);
         newIntent.putExtra("username", user.getDisplayName());
+        newIntent.putExtra("email", user.getEmail());
         startActivity(newIntent);
         finish();
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d("handleFacebookToken", token.toString());
+        Log.d(TAG,"handleFacebookToken -> " + token.toString());
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -113,13 +117,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("signInWithCredential", "success");
+                            Log.d(TAG, "signInWithCredential -> " + "success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             btnFBLogin.setEnabled(true);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("signInWithCredential", task.getException().toString());
+                            Log.w(TAG, "signInWithCredential -> " + task.getException().toString());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             btnFBLogin.setEnabled(true);

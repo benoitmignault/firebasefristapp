@@ -10,23 +10,25 @@
         android:id="@+id/logo_main"
         android:layout_width="312dp"
         android:layout_height="72dp"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/main_logo"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
 
     <ImageView
         android:id="@+id/people"
-        android:layout_width="221dp"
-        android:layout_height="206dp"
-        android:layout_below="@id/logo_main"
+        android:layout_width="205dp"
+        android:layout_height="165dp"
+        android:background="@android:color/white"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -36,32 +38,34 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+    </ImageView>
 
     <Button
         android:id="@+id/btnEmailLogin"
         android:layout_width="260dp"
         android:layout_height="46dp"
-        android:layout_below="@id/people"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="31dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/email_login_btn"
         android:text="@string/btnEmailTxt"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnFacebookLogin">
+
+    </Button>
 
     <Button
         android:id="@+id/btnFacebookLogin"
         android:layout_width="259dp"
         android:layout_height="44dp"
-        android:layout_below="@id/btnEmailLogin"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -70,17 +74,17 @@
         android:background="@drawable/facebook_login_btn"
         android:text="@string/btnFacebookTxt"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.545" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+    </Button>
 
     <TextView
         android:id="@+id/txtConditions"
         android:layout_width="333dp"
         android:layout_height="56dp"
-        android:layout_below="@id/btnFacebookLogin"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -88,26 +92,12 @@
         android:layout_marginBottom="8dp"
         android:text="@string/MsgAvertissement"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+        app:layout_constraintTop_toTopOf="@+id/guideline7">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="49dp"
-        android:layout_height="44dp"
-        android:layout_below="@id/txtConditions"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/bottom_circle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+    </TextView>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -121,28 +111,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="365dp" />
+        app:layout_constraintGuide_begin="311dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="444dp" />
+        app:layout_constraintGuide_begin="387dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline4"
+        android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="206dp" />
+        app:layout_constraintGuide_begin="463dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="611dp" />
+        app:layout_constraintGuide_begin="532dp" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="622dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,9 +1,19 @@
-<resources>
-    <string name="app_name">FirebaseConnection</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="ExtraTranslation">FirebaseConnection</string>
     <string name="facebook_app_id">2124110564565940</string>
     <string name="facebook_login_protocol_scheme">fb2124110564565940</string>
     <string name="btnFacebookTxt">SE CONNECTER AVEC FACEBOOK</string>
     <string name="btnEmailTxt">SE CONNECTER AVEC EMAIL</string>
+    <string name="btnSignUp">SIGN UP</string>
     <string name="MsgAvertissement">En se connectant, vous signifiez accepter les termes et conditions</string>
     <string name="btnLogout">SE DÉCONNECTER</string>
+    <string name="nom">Nom :</string>
+    <string name="prenom">Prénom :</string>
+    <string name="email">Email :</string>
+    <string name="msg1">Bienvenue dans mon application android sur une page vide !</string>
+    <string name="login1">Mail</string>
+    <string name="btn1">Sign In</string>
+    <string name="hint_password">Password</string>
+    <string name="btnFacebookStr">Connect Facebook</string>
+    <string name="title">Login Screen</string>
 </resources>
