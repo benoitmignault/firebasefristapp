@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnEmailLogin;
     private FirebaseAuth mAuth;
     private String TAG = "INFORMATION_LOG_MESSAGE";
-// test
+
 
 
     @Override
