@@ -1,10 +1,9 @@
 package ca.benoitmignault.firebaseconnection;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,20 +11,13 @@ import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String TAG = "INFORMATION_LOG_MESSAGE";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,41 +34,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        mCallbackManager = CallbackManager.Factory.create();
 
         btnFBLogin = findViewById(R.id.btnFacebookLogin);
         btnEmailLogin = findViewById(R.id.btnEmailLogin);
 
-        // CallbackManager permet de faire le pont entre facebook et notre application
-        mCallbackManager = CallbackManager.Factory.create();
-
         btnFBLogin.setOnClickListener(new View.OnClickListener() {
+            FacebookConnect oneConnection = new FacebookConnect();
             @Override
             public void onClick(View v) {
                 btnFBLogin.setEnabled(false);
-                LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("email", "public_profile"));
-                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Log.d(TAG,"facebookSuccess -> " + loginResult.toString());
-                        handleFacebookAccessToken(loginResult.getAccessToken());
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Log.d(TAG,"facebook -> " + "onCancel");
-                        Toast.makeText(MainActivity.this, "Une erreur s'est produite, veuillez réessayer plus tard...", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onError(FacebookException error) {
-                        Log.d(TAG,"facebookONError -> " +error.toString());
-                        Toast.makeText(MainActivity.this, "Une erreur s'est produite, veuillez réessayer plus tard...", Toast.LENGTH_LONG).show();
-                        // ...
-                    }
-                });
+                oneConnection.getConnectionWithFacebook(MainActivity.this, mCallbackManager);
+                String email = oneConnection.getEmail();
+                Log.d(TAG,"handleFacebookToken1 -> " + email); // ne marche pas
             }
         });
-
     }
 
     @Override
