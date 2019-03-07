@@ -25,8 +25,8 @@ public class FacebookConnect {
     private static Activity MYACTIVITY = null;
     static User ONEUSER = null;
     private static CallbackManager MCALLBACKMANAGER = null;
-    private static String TAG = "INFORMATION_LOG_MESSAGE";
-    private static String TAGUSER = "INFORMATION_USER";
+    private String TAG = "INFORMATION_LOG_MESSAGE";
+    private String TAGUSER = "INFORMATION_USER";
 
     public FacebookConnect() {
         this.email = "";
