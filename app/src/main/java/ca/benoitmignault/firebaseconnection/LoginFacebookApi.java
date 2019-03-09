@@ -42,7 +42,7 @@ public class LoginFacebookApi extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance(); // Important d'avoir ça sinon ça plante à tout coup
         quizWinBD = FirebaseFirestore.getInstance();
 
-        String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("username") + " ! Vous êtes" +
+        String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("frist_name") + " ! Vous êtes" +
                 " connecté à QuizWin!";
 
         logoutButton = findViewById(R.id.btnLogout);
@@ -54,6 +54,7 @@ public class LoginFacebookApi extends AppCompatActivity {
         email = findViewById(R.id.champEmail);
         password = findViewById(R.id.champPassword);
         oneAccount = new NewAccount();
+
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +75,17 @@ public class LoginFacebookApi extends AppCompatActivity {
             }
         });
 
+    }
 
+    private void setValuesOnEditText() {
+        email.setText("");
+        fristName.setText("");
+        lastName.setText("");
+        password.setText("");
+        email.setText(getIntent().getStringExtra("email"));
+        fristName.setText(getIntent().getStringExtra("frist_name"));
+        lastName.setText(getIntent().getStringExtra("last_name"));
+        password.setText("Aucun password");
     }
 
     @Override
@@ -82,8 +93,11 @@ public class LoginFacebookApi extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        // Si le currentUser n'est pas null alors on rempli l'information, sinon on le kickout de la page
         if(currentUser == null){
             updateUI();
+        } else {
+            setValuesOnEditText(); // Au moment arrivé ici l'info est sauvegardé...
         }
     }
 
@@ -106,10 +120,10 @@ public class LoginFacebookApi extends AppCompatActivity {
     public void creationAccount(){
         // Create a new user with a first and last name
         Map<String, Object> oneUser = new HashMap<>();
-        oneUser.put("fristname", "Toto");
-        oneUser.put("lastname", "Tartampion");
-        oneUser.put("email", "test@gmail.com");
-        oneUser.put("password", "Baseball123");
+        oneUser.put("email", email.getText().toString());
+        oneUser.put("fristname", fristName.getText().toString());
+        oneUser.put("lastname", lastName.getText().toString());
+        oneUser.put("password", password.getText().toString());
 
         // Add a new document with a generated ID
         quizWinBD.collection("users")
