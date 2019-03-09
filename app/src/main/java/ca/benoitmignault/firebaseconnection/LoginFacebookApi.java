@@ -12,6 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +28,12 @@ import java.util.Map;
 
 public class LoginFacebookApi extends AppCompatActivity {
 
+
+    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInOptions gso;
+    private GoogleSignInAccount account;
     private TextView loggedInConfirm;
+    private FirebaseUser user;
     private Button logoutButton, signUpButton;
     private FirebaseAuth mAuth;
     private EditText fristName, lastName, email, password;
@@ -42,6 +51,14 @@ public class LoginFacebookApi extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance(); // Important d'avoir ça sinon ça plante à tout coup
         quizWinBD = FirebaseFirestore.getInstance();
         oneUser = new User();
+        user = mAuth.getCurrentUser();
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(LoginFacebookApi.this, gso);
 
         String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("frist_name") + " ! Vous êtes" + " connecté à QuizWin!";
 
@@ -83,11 +100,16 @@ public class LoginFacebookApi extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        // Si le currentUser n'est pas null alors on rempli l'information, sinon on le kickout de la page
-        if(currentUser == null){
+        user = mAuth.getCurrentUser();
+
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        account = GoogleSignIn.getLastSignedInAccount(LoginFacebookApi.this);
+
+        // Comme nous avons deux connexions automatiques, on va aller avec cette logique
+        if(user == null && account == null){
             updateUI();
-        } else {
+        } else if (user != null || account != null){
             setValuesOnEditText(); // Au moment arrivé ici l'info est sauvegardé...
         }
     }
