@@ -2,18 +2,13 @@ package ca.benoitmignault.firebaseconnection;
 
 public class User {
 
-    private String email, firstName, lastName;
+    private String email, firstName, lastName, password;
 
     public User() {
         this.email = "";
         this.firstName = "";
         this.lastName = "";
-    }
-
-    public User(String email, String firstName, String lastName) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.password = "";
     }
 
     public String getEmail() {
@@ -39,4 +34,13 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

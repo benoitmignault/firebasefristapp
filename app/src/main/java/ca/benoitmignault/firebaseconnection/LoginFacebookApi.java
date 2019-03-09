@@ -31,7 +31,7 @@ public class LoginFacebookApi extends AppCompatActivity {
     // Access a Cloud Firestore instance from your Activity
     FirebaseFirestore quizWinBD; // ma BD en soit :)
     private String TAG = "INFORMATION_LOG_MESSAGE";
-    NewAccount oneAccount;
+    private User oneUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,9 @@ public class LoginFacebookApi extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance(); // Important d'avoir ça sinon ça plante à tout coup
         quizWinBD = FirebaseFirestore.getInstance();
+        oneUser = new User();
 
-        String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("frist_name") + " ! Vous êtes" +
-                " connecté à QuizWin!";
+        String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("frist_name") + " ! Vous êtes" + " connecté à QuizWin!";
 
         logoutButton = findViewById(R.id.btnLogout);
         signUpButton = findViewById(R.id.btnSignUp);
@@ -53,8 +53,6 @@ public class LoginFacebookApi extends AppCompatActivity {
         lastName = findViewById(R.id.champLastName);
         email = findViewById(R.id.champEmail);
         password = findViewById(R.id.champPassword);
-        oneAccount = new NewAccount();
-
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,14 +76,7 @@ public class LoginFacebookApi extends AppCompatActivity {
     }
 
     private void setValuesOnEditText() {
-        email.setText("");
-        fristName.setText("");
-        lastName.setText("");
-        password.setText("");
         email.setText(getIntent().getStringExtra("email"));
-        fristName.setText(getIntent().getStringExtra("frist_name"));
-        lastName.setText(getIntent().getStringExtra("last_name"));
-        password.setText("Aucun password");
     }
 
     @Override
@@ -111,19 +102,19 @@ public class LoginFacebookApi extends AppCompatActivity {
 
     // Méthode pour aller setter les valeurs saisies par l'utilisateur à l'object crée
     private void getValues(){
-        oneAccount.setEmail(email.getText().toString());
-        oneAccount.setFirstName(fristName.getText().toString());
-        oneAccount.setLastName(lastName.getText().toString());
-        oneAccount.setPassword(password.getText().toString());
+        oneUser.setEmail(email.getText().toString());
+        oneUser.setFirstName(fristName.getText().toString());
+        oneUser.setLastName(lastName.getText().toString());
+        oneUser.setPassword(password.getText().toString());
     }
 
     public void creationAccount(){
         // Create a new user with a first and last name
-        Map<String, Object> oneUser = new HashMap<>();
-        oneUser.put("email", email.getText().toString());
-        oneUser.put("fristname", fristName.getText().toString());
-        oneUser.put("lastname", lastName.getText().toString());
-        oneUser.put("password", password.getText().toString());
+        Map<String, Object> updateUserDB = new HashMap<>();
+        updateUserDB.put("email", oneUser.getEmail());
+        updateUserDB.put("fristname", oneUser.getFirstName());
+        updateUserDB.put("lastname", oneUser.getLastName());
+        updateUserDB.put("password", oneUser.getPassword());
 
         // Add a new document with a generated ID
         quizWinBD.collection("users")
