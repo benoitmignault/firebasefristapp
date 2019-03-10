@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCallbackManager = CallbackManager.Factory.create();
         oneUser = new User();
-
+        user = mAuth.getCurrentUser();
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -214,15 +214,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void updateUI(FirebaseUser user) {
-        if (user != null) {
-            oneUser.setEmail(user.getEmail());
-        }
+    public void updateUI(FirebaseUser currentUser) {
         //oneUser = getInfoUser(email); - La function que celine va me retourner avec quelques choses
 
-        Toast.makeText(MainActivity.this,"Bienvenue " + user.getDisplayName() + " ! Vous êtes connecté avec succès à QuizWin!", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this,"Bienvenue " + currentUser.getDisplayName() + " ! Vous êtes connecté avec succès à QuizWin!", Toast.LENGTH_LONG).show();
         Intent newIntent = new Intent(MainActivity.this, LoginFacebookApi.class);
-        newIntent.putExtra("email", oneUser.getEmail());
+        newIntent.putExtra("email", currentUser.getEmail());
+        newIntent.putExtra("full_name", currentUser.getDisplayName());
         startActivity(newIntent);
         finish();
     }
@@ -231,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG,"handleFacebookToken -> " + token.toString());
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithCredential(credential).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {

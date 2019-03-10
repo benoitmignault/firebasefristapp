@@ -30,9 +30,6 @@ import java.util.Map;
 
 public class LoginFacebookApi extends AppCompatActivity {
 
-    private GoogleSignInClient mGoogleSignInClient;
-    private GoogleSignInOptions gso;
-    private GoogleSignInAccount account;
     private TextView loggedInConfirm;
     private FirebaseUser user;
     private Button logoutButton, signUpButton;
@@ -54,15 +51,7 @@ public class LoginFacebookApi extends AppCompatActivity {
         oneUser = new User();
         user = mAuth.getCurrentUser();
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(LoginFacebookApi.this, gso);
-
-        String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("frist_name") + " ! Vous êtes" + " connecté à QuizWin!";
+        String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("full_name") + " ! Vous êtes" + " connecté à QuizWin!";
 
         logoutButton = findViewById(R.id.btnLogout);
         signUpButton = findViewById(R.id.btnSignUp);
@@ -102,14 +91,10 @@ public class LoginFacebookApi extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         user = mAuth.getCurrentUser();
 
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        account = GoogleSignIn.getLastSignedInAccount(LoginFacebookApi.this);
-
         // Comme nous avons deux connexions automatiques, on va aller avec cette logique
-        if(user == null && account == null){
+        if(user == null){
             updateUI();
-        } else if (user != null || account != null){
+        } else{
             setValuesOnEditText(); // Au moment arrivé ici l'info est sauvegardé...
         }
     }
@@ -164,12 +149,6 @@ public class LoginFacebookApi extends AppCompatActivity {
         mAuth.signOut();
         // Déconnection de facebook
         LoginManager.getInstance().logOut();
-        // Google sign out
-        mGoogleSignInClient.signOut().addOnCompleteListener(LoginFacebookApi.this, new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                updateUI();
-            }
-        });
+        updateUI();
     }
 }
