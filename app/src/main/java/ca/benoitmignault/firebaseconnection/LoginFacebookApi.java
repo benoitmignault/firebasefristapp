@@ -16,8 +16,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginFacebookApi extends AppCompatActivity {
-
 
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInOptions gso;
@@ -54,6 +55,7 @@ public class LoginFacebookApi extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -84,9 +86,7 @@ public class LoginFacebookApi extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logoutButton.setEnabled(false);
-                mAuth.signOut(); // Déconnection de firebase
-                LoginManager.getInstance().logOut(); // déconnection de facebook
-                updateUI();
+                signOut();
             }
         });
 
@@ -157,5 +157,19 @@ public class LoginFacebookApi extends AppCompatActivity {
 
                 });
         signUpButton.setEnabled(true);
+    }
+
+    private void signOut(){
+        // Firebase sign out
+        mAuth.signOut();
+        // Déconnection de facebook
+        LoginManager.getInstance().logOut();
+        // Google sign out
+        mGoogleSignInClient.signOut().addOnCompleteListener(LoginFacebookApi.this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                updateUI();
+            }
+        });
     }
 }

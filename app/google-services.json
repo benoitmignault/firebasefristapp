@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "638663311999-eb9nca2o5i8j1t9evoet9e29u9qbiqq5.apps.googleusercontent.com",
+          "client_id": "638663311999-k5l5p5jkcsft00v8qhehr42jsgf38ffq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ca.benoitmignault.firebaseconnection",
@@ -23,7 +23,7 @@
           }
         },
         {
-          "client_id": "638663311999-i9c95pmj2l90eh8alk17vom58p0rl4t3.apps.googleusercontent.com",
+          "client_id": "638663311999-728nj0pahuuvrdn62lu7gboeccv5b38n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -40,51 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "638663311999-i9c95pmj2l90eh8alk17vom58p0rl4t3.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:638663311999:android:34d06f943f0b0d21",
-        "android_client_info": {
-          "package_name": "ca.benoitmignault.firebasefristapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "638663311999-mvnrmc57v4k4p2qu45ti75q012htiqlc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ca.benoitmignault.firebasefristapp",
-            "certificate_hash": "48a2cd71cbc8f98fa505b0a73cca95ff1a076a05"
-          }
-        },
-        {
-          "client_id": "638663311999-i9c95pmj2l90eh8alk17vom58p0rl4t3.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDBwyaBfVmZ7_0Myg1cQIT486S356lRCxE"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "638663311999-i9c95pmj2l90eh8alk17vom58p0rl4t3.apps.googleusercontent.com",
+              "client_id": "638663311999-728nj0pahuuvrdn62lu7gboeccv5b38n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
