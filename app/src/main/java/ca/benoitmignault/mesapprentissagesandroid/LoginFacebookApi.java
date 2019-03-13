@@ -1,4 +1,4 @@
-package ca.benoitmignault.firebaseconnection;
+package ca.benoitmignault.mesapprentissagesandroid;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,14 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,7 +25,6 @@ import java.util.Map;
 public class LoginFacebookApi extends AppCompatActivity {
 
     private TextView loggedInConfirm;
-    private FirebaseUser user;
     private Button logoutButton, signUpButton;
     private FirebaseAuth mAuth;
     private EditText fristName, lastName, email, password;
@@ -49,9 +42,8 @@ public class LoginFacebookApi extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance(); // Important d'avoir ça sinon ça plante à tout coup
         quizWinBD = FirebaseFirestore.getInstance();
         oneUser = new User();
-        user = mAuth.getCurrentUser();
 
-        String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("full_name") + " ! Vous êtes" + " connecté à QuizWin!";
+        String welcomePhrase = "Bienvenue " + getIntent().getStringExtra("frist_name") + " ! Vous êtes" + " connecté à QuizWin!";
 
         logoutButton = findViewById(R.id.btnLogout);
         signUpButton = findViewById(R.id.btnSignUp);
@@ -75,7 +67,10 @@ public class LoginFacebookApi extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logoutButton.setEnabled(false);
-                signOut();
+                mAuth.signOut(); // Déconnection de firebase
+                LoginManager.getInstance().logOut(); // déconnection de facebook
+
+                updateUI();
             }
         });
 
@@ -89,12 +84,12 @@ public class LoginFacebookApi extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        user = mAuth.getCurrentUser();
-
-        // Comme nous avons deux connexions automatiques, on va aller avec cette logique
-        if(user == null){
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        // Si le currentUser n'est pas null alors on rempli l'information, sinon on le kickout de la page
+        if(currentUser == null){
             updateUI();
-        } else{
+        } else {
             setValuesOnEditText(); // Au moment arrivé ici l'info est sauvegardé...
         }
     }
@@ -142,13 +137,5 @@ public class LoginFacebookApi extends AppCompatActivity {
 
                 });
         signUpButton.setEnabled(true);
-    }
-
-    private void signOut(){
-        // Firebase sign out
-        mAuth.signOut();
-        // Déconnection de facebook
-        LoginManager.getInstance().logOut();
-        updateUI();
     }
 }

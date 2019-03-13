@@ -16,7 +16,4 @@
     <string name="hint_password">Password</string>
     <string name="btnFacebookStr">Connect Facebook</string>
     <string name="title">Login Screen</string>
-    <string name="btnGoogleTxt">SE CONNECTER AVEC GOOGLE</string>
-
-    btnGoogleTxt
 </resources>

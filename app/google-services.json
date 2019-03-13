@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "638663311999",
-    "firebase_url": "https://quizwin-e87c6.firebaseio.com",
-    "project_id": "quizwin-e87c6",
-    "storage_bucket": "quizwin-e87c6.appspot.com"
+    "project_number": "403604909120",
+    "firebase_url": "https://frantz256255-21cc0.firebaseio.com",
+    "project_id": "frantz256255-21cc0",
+    "storage_bucket": "frantz256255-21cc0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:638663311999:android:38fe5e28c340030d",
+        "mobilesdk_app_id": "1:403604909120:android:dc15f23b6a0e6d18",
         "android_client_info": {
-          "package_name": "ca.benoitmignault.firebaseconnection"
+          "package_name": "ca.benoitmignault.mesapprentissagesandroid"
         }
       },
       "oauth_client": [
         {
-          "client_id": "638663311999-k5l5p5jkcsft00v8qhehr42jsgf38ffq.apps.googleusercontent.com",
+          "client_id": "403604909120-q8ahd26jd9q7moa6qp5iuuvt8n8c4rde.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "ca.benoitmignault.firebaseconnection",
+            "package_name": "ca.benoitmignault.mesapprentissagesandroid",
             "certificate_hash": "48a2cd71cbc8f98fa505b0a73cca95ff1a076a05"
           }
         },
         {
-          "client_id": "638663311999-728nj0pahuuvrdn62lu7gboeccv5b38n.apps.googleusercontent.com",
+          "client_id": "403604909120-a9c12gg07rjk31f1665svgklcl5f76f4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDBwyaBfVmZ7_0Myg1cQIT486S356lRCxE"
+          "current_key": "AIzaSyAXmaEOXwprOHk72GfNfsmGej6OpD_Dj4I"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "638663311999-728nj0pahuuvrdn62lu7gboeccv5b38n.apps.googleusercontent.com",
+              "client_id": "403604909120-a9c12gg07rjk31f1665svgklcl5f76f4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

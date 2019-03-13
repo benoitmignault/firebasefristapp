@@ -78,23 +78,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2">
-    </Button>
 
-    <Button
-        android:id="@+id/btnGoogleLogin"
-        android:layout_width="258dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/google_login_btn"
-        android:text="@string/btnGoogleTxt"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+    </Button>
 
     <TextView
         android:id="@+id/txtConditions"
