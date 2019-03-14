@@ -2,13 +2,15 @@ package ca.benoitmignault.mesapprentissagesandroid;
 
 public class User {
 
-    private String email, firstName, lastName, password;
+    private String email, fullName, city, gender;
+    private int age;
 
     public User() {
         this.email = "";
-        this.firstName = "";
-        this.lastName = "";
-        this.password = "";
+        this.fullName = "";
+        this.city = "";
+        this.gender = "";
+        this.age = 0;
     }
 
     public String getEmail() {
@@ -19,28 +21,37 @@ public class User {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getCity() {
+        return city;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getPassword() {
-        return password;
+    public String getGender() {
+        return gender;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }
+
+

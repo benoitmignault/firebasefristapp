@@ -105,18 +105,20 @@ public class LoginFacebookApi extends AppCompatActivity {
     // Méthode pour aller setter les valeurs saisies par l'utilisateur à l'object crée
     private void getValues(){
         oneUser.setEmail(email.getText().toString());
-        oneUser.setFirstName(fristName.getText().toString());
-        oneUser.setLastName(lastName.getText().toString());
-        oneUser.setPassword(password.getText().toString());
+        oneUser.setFullName(fristName.getText().toString());
+        oneUser.setCity(lastName.getText().toString());
+        oneUser.setGender(password.getText().toString());
+        oneUser.setAge(Integer.parseInt(password.getText().toString()));
     }
 
     public void creationAccount(){
         // Create a new user with a first and last name
         Map<String, Object> updateUserDB = new HashMap<>();
         updateUserDB.put("email", oneUser.getEmail());
-        updateUserDB.put("fristname", oneUser.getFirstName());
-        updateUserDB.put("lastname", oneUser.getLastName());
-        updateUserDB.put("password", oneUser.getPassword());
+        updateUserDB.put("fullname", oneUser.getFullName());
+        updateUserDB.put("city", oneUser.getCity());
+        updateUserDB.put("gender", oneUser.getGender());
+        updateUserDB.put("age", oneUser.getAge());
 
         // Add a new document with a generated ID
         quizWinBD.collection("users")

@@ -1,6 +1,7 @@
 package ca.benoitmignault.mesapprentissagesandroid;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import android.database.sqlite.SQLiteDatabase;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "INFORMATION_LOG_MESSAGE";
     private String TAGUSER = "INFORMATION_LOG_USER";
     private User oneUser;
+    InformationDATA db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,29 @@ public class MainActivity extends AppCompatActivity {
         mCallbackManager = CallbackManager.Factory.create();
 
         oneUser = new User();
+
+        db = new InformationDATA(MainActivity.this);
+        SQLiteDatabase database = db.getWritableDatabase();
+
+        // db.onUpgrade(database,1,2); // Faire un reset de la database
+        // db.onCreate(database); <--- Ne fait pas erreur de compilation si elle existe deja
+
+        //String email, String fullname, int age, String gender, String city
+        db.addUser("b.mignault@gmail.com","Benny Migo", 36, "M", "Montreal");
+        db.addUser("marie-eve_dolbec@gmail.com","Marie D", 41, "F","St-Lambert");
+        db.addUser("fred.wilson@gmail.com","Monsieur Wilson", 35, "M", "St-Laurent");
+
+        db.onRequestInformation();
+
+
+
+        // C:\Users\frantz256255\AppData\Local\Android\Sdk - l'endroit où on va voir notre DB
+        // adb.exe devices -> pour savoir où est notre DB
+        // adb.exe -s «le nom avec des chiffres» shell -> ca nous envoi direct dans le dossier de la Database
+        // cd /data/data/ca.benoitmignault.mesapprentissagesandroid/databases
+
+        Toast.makeText(MainActivity.this, "Les email ont été ajoutés", Toast.LENGTH_SHORT).show();
+        //db.onUpgrade(data,1,2);
 
         btnFBLogin = findViewById(R.id.btnFacebookLogin);
         btnEmailLogin = findViewById(R.id.btnEmailLogin);
