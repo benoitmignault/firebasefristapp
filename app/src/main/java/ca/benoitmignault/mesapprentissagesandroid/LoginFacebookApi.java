@@ -108,7 +108,6 @@ public class LoginFacebookApi extends AppCompatActivity {
         oneUser.setFullName(fristName.getText().toString());
         oneUser.setCity(lastName.getText().toString());
         oneUser.setGender(password.getText().toString());
-        oneUser.setAge(Integer.parseInt(password.getText().toString()));
     }
 
     public void creationAccount(){
@@ -119,10 +118,11 @@ public class LoginFacebookApi extends AppCompatActivity {
         updateUserDB.put("city", oneUser.getCity());
         updateUserDB.put("gender", oneUser.getGender());
         updateUserDB.put("age", oneUser.getAge());
+        Log.d(TAG, "Information à ajouter dans la BD -> " + updateUserDB);
 
         // Add a new document with a generated ID
         quizWinBD.collection("users")
-                .add(oneUser)
+                .add(updateUserDB)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
