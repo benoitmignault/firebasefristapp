@@ -1,5 +1,6 @@
 package ca.benoitmignault.mesapprentissagesandroid;
 
+import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import java.util.List;
 public class InformationDATA extends SQLiteOpenHelper {
 
     private String INFODB = "INFORMATION_LOG_DB_SQLITE";
+    private String USERINFO = "INFORMATION_USER";
     private static final String DATABASE_NAME = "quizwinBD";    // Database Name
     private static final String TABLE_NAME = "user";   // Table Name
     private static final int DATABASE_Version = 1;   // Database Version
@@ -46,12 +48,54 @@ public class InformationDATA extends SQLiteOpenHelper {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
         try {
-            Log.d(INFODB, "La table -> " +TABLE_NAME+ "est détruite !!!");
+            Log.d(INFODB, "La table -> " +TABLE_NAME+ " est détruite !!!");
             db.execSQL(DROP_TABLE);
             onCreate(db);
         }catch (Exception e) {
             Log.d(INFODB, "Execution error -> " +e.getMessage());
         }
+    }
+
+    // procédure pour faire un update sur un user avec son id préalablement abtonu avec une information précise
+    public void updateItem(User oneUserToUpdate, int idUser) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues newValues = new ContentValues();
+        newValues.put(EMAIL, oneUserToUpdate.getEmail());
+        newValues.put(FULLNAME, oneUserToUpdate.getFullName());
+        newValues.put(AGE, oneUserToUpdate.getAge());
+        newValues.put(GENDER, oneUserToUpdate.getGender());
+        newValues.put(CITY, oneUserToUpdate.getCity());
+        String whereClause = UID + " = ?";
+        String whereArgs[] = {Integer.toString(idUser)};
+        Log.d(USERINFO, "Info USEr -> " +idUser);
+        int rowModify = db.update(TABLE_NAME, newValues, whereClause, whereArgs);
+        Log.d(USERINFO, "Info USEr -> " +rowModify);
+    }
+
+    public int getId(String email){
+        SQLiteDatabase db = getReadableDatabase();
+        // mon select
+        String[] projection = {InformationDATA.UID};
+        // mon where
+        String selection = InformationDATA.EMAIL + " = ?";
+        String[] selectionArgs = {email};
+        // ensemble de ma requête
+        Cursor cursor = db.query(
+                InformationDATA.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+        Log.d(INFODB, "Nombre d'élément pour un getID -> "+cursor.getCount());
+        int idUser = 0;
+        if (cursor.moveToFirst()){
+            idUser = cursor.getInt(cursor.getColumnIndexOrThrow(InformationDATA.UID));
+        }
+        cursor.close();
+        return idUser;
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -60,7 +104,6 @@ public class InformationDATA extends SQLiteOpenHelper {
 
     public void onRequestInformation(){
         SQLiteDatabase db = getReadableDatabase();
-
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -71,10 +114,8 @@ public class InformationDATA extends SQLiteOpenHelper {
                 InformationDATA.CITY,
                 InformationDATA.GENDER
         };
-
-        // Filter results WHERE "email" = 'b.mignault@gmail.com'  <---- Exemple
         String selection = InformationDATA.EMAIL + " = ?";
-        String[] selectionArgs = { "My Title" };
+        String[] selectionArgs = {};
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder = InformationDATA.EMAIL + " DESC";
@@ -90,6 +131,7 @@ public class InformationDATA extends SQLiteOpenHelper {
         );
 
         // Si il y a un seul élément en retour -> cursor.moveToFirst();
+        Log.d(INFODB, "Nombre d'élément pour le select ALL -> "+cursor.getCount());
 
         List itemIds = new ArrayList<>();
         while(cursor.moveToNext()) {

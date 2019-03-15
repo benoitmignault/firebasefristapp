@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnEmailLogin;
     private FirebaseAuth mAuth;
     private String TAG = "INFORMATION_LOG_MESSAGE";
+    private String INFO_BD = "INFORMATION_BD";
     private String TAGUSER = "INFORMATION_LOG_USER";
     private User oneUser;
     InformationDATA db;
@@ -53,9 +54,8 @@ public class MainActivity extends AppCompatActivity {
         oneUser = new User();
 
         db = new InformationDATA(MainActivity.this);
-        SQLiteDatabase database = db.getWritableDatabase();
-
-        // db.onUpgrade(database,1,2); // Faire un reset de la database
+        SQLiteDatabase database = db.getWritableDatabase(); // database sera utile pour parler avec notre DB
+        db.onUpgrade(database,1,2); // Faire un reset de la database
         // db.onCreate(database); <--- Ne fait pas erreur de compilation si elle existe deja
 
         //String email, String fullname, int age, String gender, String city
@@ -63,14 +63,21 @@ public class MainActivity extends AppCompatActivity {
         db.addUser("marie-eve_dolbec@gmail.com","Marie D", 41, "F","St-Lambert");
         db.addUser("fred.wilson@gmail.com","Monsieur Wilson", 35, "M", "St-Laurent");
 
-        db.onRequestInformation();
+        db.onRequestInformation(); // Voir l'information avant les changements
 
+        int idUser = db.getId("b.mignault@gmail.com"); // pour récuperer l'id pour ensuite modifier les informations
+        Log.d(INFO_BD, "information ID -> " + idUser);
 
+        User userModify = new User();
+        userModify.setEmail("modification@gmail.com");
+        userModify.setFullName("Mod Mop");
+        userModify.setAge(123);
+        userModify.setGender("FFF");
+        userModify.setCity("Parisss");
 
-        // C:\Users\frantz256255\AppData\Local\Android\Sdk - l'endroit où on va voir notre DB
-        // adb.exe devices -> pour savoir où est notre DB
-        // adb.exe -s «le nom avec des chiffres» shell -> ca nous envoi direct dans le dossier de la Database
-        // cd /data/data/ca.benoitmignault.mesapprentissagesandroid/databases
+        db.updateItem(userModify, idUser); // Nous allons modifier user en fct du email donner avec la fct getId
+
+        db.onRequestInformation(); // // Voir l'information après les changements
 
         Toast.makeText(MainActivity.this, "Les email ont été ajoutés", Toast.LENGTH_SHORT).show();
         //db.onUpgrade(data,1,2);
@@ -105,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                         // ...
                     }
                 });
-
             }
         });
     }
